@@ -223,21 +223,28 @@ def load_val_dataset(args, val_dataset_name):
     elif val_dataset_name == 'fgvc_aircraft':
         val_dataset = fgvc_aircraft.FGVCAircraft(args.root, split='test', transform=preprocess224, download=True)
     
-    elif val_dataset_name == 'ImageNet':
-        from replace.datasets.folder import ImageNetFolder
-        if args.evaluate:
-            val_dataset = ImageNetFolder(os.path.join(args.imagenet_root, 'val'), transform=preprocess224)
-        else:
-            eval_select = get_eval_files(val_dataset_name)
-            val_dataset = ImageNetFolder(os.path.join(args.imagenet_root, 'train'), transform=preprocess224, select_files=eval_select)
+    #elif val_dataset_name == 'ImageNet':
+    #    from replace.datasets.folder import ImageNetFolder
+    #    if args.evaluate:
+    #        val_dataset = ImageNetFolder(os.path.join(args.imagenet_root, 'val'), transform=preprocess224)
+    #    else:
+    #        eval_select = get_eval_files(val_dataset_name)
+    #        val_dataset = ImageNetFolder(os.path.join(args.imagenet_root, 'train'), transform=preprocess224, select_files=eval_select)
     
+    #elif val_dataset_name == 'tinyImageNet':
+    #    from replace.datasets.folder import ImageNetFolder
+    #    if args.evaluate:
+    #        val_dataset = ImageNetFolder(os.path.join(args.tinyimagenet_root, 'val_'), transform=preprocess224)
+    #    else:
+    #        eval_select = get_eval_files(val_dataset_name)
+    #        val_dataset = ImageNetFolder(os.path.join(args.tinyimagenet_root, 'train'), transform=preprocess224, select_files=eval_select)
+    elif val_dataset_name == 'ImageNet':
+        logging.warning("ImageNet is not available, skipping...")
+        return create_empty_dataset(args)
+        
     elif val_dataset_name == 'tinyImageNet':
-        from replace.datasets.folder import ImageNetFolder
-        if args.evaluate:
-            val_dataset = ImageNetFolder(os.path.join(args.tinyimagenet_root, 'val_'), transform=preprocess224)
-        else:
-            eval_select = get_eval_files(val_dataset_name)
-            val_dataset = ImageNetFolder(os.path.join(args.tinyimagenet_root, 'train'), transform=preprocess224, select_files=eval_select)
+        logging.warning("TinyImageNet is not available, skipping...")
+        return create_empty_dataset(args)
     else:
         print(f"Val dataset {val_dataset_name} not implemented")
         raise NotImplementedError
@@ -302,11 +309,17 @@ def freeze(model:torch.nn.Module):
     return
 
 DATASETS = [
-    'cifar10', 'cifar100', 'STL10','ImageNet',
+    'cifar10', 'cifar100', 'STL10',
     'Caltech101', 'Caltech256', 'oxfordpet', 'flowers102', 'fgvc_aircraft',
     'StanfordCars', 'SUN397', 'Country211', 'Food101', 'EuroSAT',
-    'dtd', 'PCAM', 'tinyImageNet',
+    'dtd', 'PCAM',
 ]
+#DATASETS = [
+#    'cifar10', 'cifar100', 'STL10','ImageNet',
+#    'Caltech101', 'Caltech256', 'oxfordpet', 'flowers102', 'fgvc_aircraft',
+#    'StanfordCars', 'SUN397', 'Country211', 'Food101', 'EuroSAT',
+#    'dtd', 'PCAM', 'tinyImageNet',
+#]
 
 
 def write_file(txt:str, file:str, mode='a'):

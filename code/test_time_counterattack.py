@@ -328,6 +328,7 @@ def main():
     outdir = os.path.join(outdir, f"{args.test_attack_type}_eps_{args.test_eps}_numsteps_{args.test_numsteps}")
     os.makedirs(outdir, exist_ok=True)
 
+    #do nhieu
     args.test_eps = args.test_eps / 255.
     args.test_stepsize = args.test_stepsize / 255.
 
@@ -353,10 +354,10 @@ def main():
     args.ttc_stepsize = args.ttc_stepsize / 255.
     args.ttc_eps = args.ttc_eps / 255.
 
-    imagenet_root = './data/ImageNet'
-    tinyimagenet_root = "./data/tiny-imagenet-200"
-    args.imagenet_root = imagenet_root
-    args.tinyimagenet_root = tinyimagenet_root
+    #imagenet_root = './data/ImageNet'
+    #tinyimagenet_root = "./data/tiny-imagenet-200"
+    #args.imagenet_root = imagenet_root
+    #args.tinyimagenet_root = tinyimagenet_root
 
     # load model
     model, _ = clip.load('ViT-B/32', device, jit=False, prompt_len=0)
@@ -378,11 +379,27 @@ def main():
     add_prompter = torch.nn.DataParallel(add_prompter).cuda()
     logging.info("done loading model.")
 
+    #if len(args.test_set) == 0:
+    #    test_set = DATASETS
+    #else:
+    #    test_set = args.test_set
+
+    #loc bo 2 dataset neu van con
     if len(args.test_set) == 0:
         test_set = DATASETS
+        # Lọc bỏ ImageNet và TinyImageNet nếu chúng vô tình có trong DATASETS
+        test_set = [dataset for dataset in test_set if dataset not in ['ImageNet', 'tinyImageNet']]
     else:
         test_set = args.test_set
+        # Lọc bỏ ImageNet và TinyImageNet nếu người dùng chỉ định
+        test_set = [dataset for dataset in test_set if dataset not in ['ImageNet', 'tinyImageNet']]
 
+    #log lai
+    logging.info(f"Will evaluate on datasets: {test_set}")
+    
+    if not test_set:
+        logging.error("No datasets available for evaluation!")
+        return
     # criterion to compute attack loss, the reduction of 'sum' is important for effective attacks
     criterion_attack = torch.nn.CrossEntropyLoss(reduction='sum').to(device)
 
