@@ -196,7 +196,9 @@ def load_val_dataset(args, val_dataset_name):
         val_dataset = STL10(args.root, split='test', transform=preprocess224, download=True)
 
     elif val_dataset_name == 'SUN397':
-        val_dataset = sun397.SUN397(args.root, transform=preprocess224, download=True)
+    #    val_dataset = sun397.SUN397(args.root, transform=preprocess224, download=True)
+        logging.warning("StanfordCars is not available, skipping...")
+        return create_empty_dataset(args)
 
     elif val_dataset_name == 'StanfordCars':
     #    val_dataset = stanford_cars.StanfordCars(args.root, split='test', transform=preprocess224, download=True)
@@ -213,9 +215,8 @@ def load_val_dataset(args, val_dataset_name):
         val_dataset = eurosat.EuroSAT(args.root, transform=preprocess224, download=True)
 
     elif val_dataset_name == 'Caltech256':
-    #    val_dataset = caltech.Caltech256(args.root, transform=preprocess224_caltech, download=True)
-        logging.warning("Caltech256 is not available, skipping...")
-        return create_empty_dataset(args)
+        val_dataset = caltech.Caltech256(args.root, transform=preprocess224_caltech, download=True)
+    
 
     elif val_dataset_name == 'flowers102':
         val_dataset = flowers102.Flowers102(args.root, split='test', transform=preprocess224, download=True)
