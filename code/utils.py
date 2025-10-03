@@ -199,7 +199,9 @@ def load_val_dataset(args, val_dataset_name):
         val_dataset = sun397.SUN397(args.root, transform=preprocess224, download=True)
 
     elif val_dataset_name == 'StanfordCars':
-        val_dataset = stanford_cars.StanfordCars(args.root, split='test', transform=preprocess224, download=True)
+    #    val_dataset = stanford_cars.StanfordCars(args.root, split='test', transform=preprocess224, download=True)
+        logging.warning("StanfordCars is not available, skipping...")
+        return create_empty_dataset(args)
 
     elif val_dataset_name == 'Food101':
         val_dataset = food101.Food101(args.root, split='test', transform=preprocess224, download=True)
@@ -313,8 +315,7 @@ def freeze(model:torch.nn.Module):
     return
 
 DATASETS = [
-    'cifar10', 'cifar100', 'STL10', 'oxfordpet', 'flowers102', 'fgvc_aircraft',
-    'StanfordCars', 'SUN397', 'Country211', 'Food101', 'EuroSAT',
+    'cifar10', 'cifar100', 'STL10', 'oxfordpet', 'flowers102', 'fgvc_aircraft', 'SUN397', 'Country211', 'Food101', 'EuroSAT',
     'dtd', 'PCAM',
 ]
 #DATASETS = [
