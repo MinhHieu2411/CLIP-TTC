@@ -197,7 +197,7 @@ def load_val_dataset(args, val_dataset_name):
 
     elif val_dataset_name == 'SUN397':
     #    val_dataset = sun397.SUN397(args.root, transform=preprocess224, download=True)
-        logging.warning("StanfordCars is not available, skipping...")
+        logging.warning("SUN397 is not available, skipping...")
         return create_empty_dataset(args)
 
     elif val_dataset_name == 'StanfordCars':
