@@ -316,7 +316,7 @@ def freeze(model:torch.nn.Module):
     return
 
 DATASETS = [
-    'cifar10', 'cifar100', 'STL10', 'oxfordpet', 'flowers102', 'fgvc_aircraft', 'SUN397', 'Country211', 'Food101', 'EuroSAT',
+    'cifar10', 'cifar100', 'STL10', 'oxfordpet', 'Caltech256', 'flowers102', 'fgvc_aircraft', 'SUN397', 'Country211', 'Food101', 'EuroSAT',
     'dtd', 'PCAM',
 ]
 #DATASETS = [
