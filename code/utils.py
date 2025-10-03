@@ -185,7 +185,9 @@ def load_val_dataset(args, val_dataset_name):
         val_dataset = CIFAR100(args.root, transform=preprocess224, download=True, train=False)
 
     elif val_dataset_name == 'Caltech101':
-        val_dataset = caltech.Caltech101(args.root, target_type='category', transform=preprocess224_caltech, download=True)
+    #    val_dataset = caltech.Caltech101(args.root, target_type='category', transform=preprocess224_caltech, download=True)
+        logging.warning("Caltech101 is not available, skipping...")
+        return create_empty_dataset(args)
 
     elif val_dataset_name == 'PCAM':
         val_dataset = pcam.PCAM(args.root, split='test', transform=preprocess224, download=True)
@@ -209,7 +211,9 @@ def load_val_dataset(args, val_dataset_name):
         val_dataset = eurosat.EuroSAT(args.root, transform=preprocess224, download=True)
 
     elif val_dataset_name == 'Caltech256':
-        val_dataset = caltech.Caltech256(args.root, transform=preprocess224_caltech, download=True)
+    #    val_dataset = caltech.Caltech256(args.root, transform=preprocess224_caltech, download=True)
+        logging.warning("Caltech256 is not available, skipping...")
+        return create_empty_dataset(args)
 
     elif val_dataset_name == 'flowers102':
         val_dataset = flowers102.Flowers102(args.root, split='test', transform=preprocess224, download=True)
@@ -309,8 +313,7 @@ def freeze(model:torch.nn.Module):
     return
 
 DATASETS = [
-    'cifar10', 'cifar100', 'STL10',
-    'Caltech101', 'Caltech256', 'oxfordpet', 'flowers102', 'fgvc_aircraft',
+    'cifar10', 'cifar100', 'STL10', 'oxfordpet', 'flowers102', 'fgvc_aircraft',
     'StanfordCars', 'SUN397', 'Country211', 'Food101', 'EuroSAT',
     'dtd', 'PCAM',
 ]
